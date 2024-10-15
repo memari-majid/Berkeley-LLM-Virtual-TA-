@@ -1,4 +1,4 @@
-# Virtual TA for Berkeley CS294/194-196 Large Language Model Agents
+# Virtual TA for Berkeley Large Language Model Agents course
 
 ## Overview
 
