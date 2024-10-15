@@ -2,10 +2,11 @@
 """KnowledgeBase_RAG_with_PGVector.py"""
 
 import os
+import glob
 import requests
 from bs4 import BeautifulSoup
 from langchain.docstore.document import Document
-from langchain.document_loaders import PyPDFLoader, TextLoader, JSONLoader
+from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores.pgvector import PGVector
@@ -18,21 +19,18 @@ import warnings
 # Suppress all warnings for cleaner output
 warnings.filterwarnings("ignore")
 
-# Function to load documents from file paths (PDF, Text, JSON)
-def load_documents(file_path):
+# Function to load all PDF documents from a directory
+def load_documents_from_directory(directory_path):
     '''
-    Load documents based on the file type (PDF, Text, JSON).
+    Load all PDF documents from the specified directory.
     '''
-    _, ext = os.path.splitext(file_path)
-    if ext.lower() == '.pdf':
-        loader = PyPDFLoader(file_path)
-    elif ext.lower() == '.txt':
-        loader = TextLoader(file_path)
-    elif ext.lower() == '.json':
-        loader = JSONLoader(file_path)
-    else:
-        raise ValueError(f"Unsupported file format: {ext}")
-    documents = loader.load()
+    pdf_files = glob.glob(os.path.join(directory_path, '*.pdf'))
+    documents = []
+    for pdf_file in pdf_files:
+        loader = PyPDFLoader(pdf_file)
+        docs = loader.load()
+        documents.extend(docs)
+        print(f"Loaded {len(docs)} pages from {pdf_file}")
     return documents
 
 # Function to split loaded documents into smaller chunks for processing
@@ -42,6 +40,7 @@ def split_documents(documents):
     '''
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     split_docs = text_splitter.split_documents(documents)
+    print(f"Split into {len(split_docs)} chunks")
     return split_docs
 
 # Function to vectorize documents using PGVector and HuggingFace embeddings
@@ -89,20 +88,24 @@ def create_rag_chain(vector_store, prompt, llm):
     return rag_chain
 
 def main():
-    # Get the file path from the user
-    file_path = input("Enter the path to the document file (PDF, TXT, JSON): ")
+    # Directory containing the PDF papers
+    directory_path = "./papers"
 
-    # Check if the file exists
-    if not os.path.isfile(file_path):
-        print(f"File not found: {file_path}")
+    # Check if the directory exists
+    if not os.path.isdir(directory_path):
+        print(f"Directory not found: {directory_path}")
         return
 
-    # Load and process the document
-    documents = load_documents(file_path)
+    # Load and process all PDF documents in the directory
+    documents = load_documents_from_directory(directory_path)
+    if not documents:
+        print("No documents found in the directory.")
+        return
+
     split_docs = split_documents(documents)
 
     # Define connection parameters
-    collection_name = "my_collection"  # Replace with your collection name
+    collection_name = "papers_collection"  # Replace with your desired collection name
     connection_string = "postgresql://username:password@hostname:port/database"  # Replace with your connection string
 
     # Create or connect to the vector store
@@ -115,6 +118,7 @@ def main():
         if scraped_documents:
             split_scraped_docs = split_documents(scraped_documents)
             vector_store.add_documents(split_scraped_docs)
+            print("Scraped documents added to the vector store.")
 
     # Create the prompt template for LLaMA model interaction
     prompt_template = PromptTemplate(
@@ -123,12 +127,12 @@ def main():
     )
 
     # Load the local LLaMA model (Ollama)
-    llm = Ollama(model="llama3.1")
+    llm = Ollama(model="llama3.2")
 
     # Create the RAG chain
     rag_chain = create_rag_chain(vector_store, prompt_template, llm)
 
-    # Example query to the RAG system
+    # Interactive question loop
     while True:
         question = input("Enter your question (or 'exit' to quit): ")
         if question.lower() == 'exit':

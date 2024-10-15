@@ -1,0 +1,3 @@
+https://cloud.google.com/blog/products/ai-machine-learning/rag-and-grounding-on-vertex-ai?e=48754805
+https://towardsdatascience.com/the-needle-in-a-haystack-test-a94974c1ad38
+https://cloud.google.com/blog/products/ai-machine-learning/the-needle-in-the-haystack-test-and-how-gemini-pro-solves-it?e=48754805
