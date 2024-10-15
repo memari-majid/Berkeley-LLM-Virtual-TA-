@@ -55,4 +55,9 @@ Students can interact with the virtual TA through Edstem, and it will guide them
 
 This AI-powered TA ensures that students can access timely and accurate information, enhancing their learning experience in the rapidly evolving field of large language model agents.
 
+## License
+
+This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for more details.
+
+
 For any inquiries, feel free to use the virtual TA and explore the topics discussed in the course!
