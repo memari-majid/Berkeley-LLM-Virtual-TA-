@@ -1,0 +1,9 @@
+os
+requests
+beautifulsoup4
+langchain
+langchain-core
+sentence-transformers
+postgresql
+pgvector
+warnings
