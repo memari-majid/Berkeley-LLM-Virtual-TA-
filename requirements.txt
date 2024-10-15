@@ -27,3 +27,6 @@ PyPDF2
 
 # Library for handling and parsing PDFs
 pypdf
+
+# UI library for building web applications
+streamlit

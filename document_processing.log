@@ -1,0 +1,67 @@
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+ERROR:root:Error generating answer: Ollama call failed with status code 404. Maybe your model is not found and you should pull the model with `ollama pull llama2`.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+ERROR:root:Error creating vector store: Table 'langchain_pg_collection' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
+ERROR:root:Failed to create vector store: Table 'langchain_pg_collection' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
