@@ -77,6 +77,7 @@ def split_documents(documents):
 def create_database_if_not_exists(connection_params):
     '''
     Connects to the default 'postgres' database to check and create the target database if it doesn't exist.
+    Displays status messages in the Web UI.
     '''
     dbname = connection_params['database']
     user = connection_params['user']
@@ -85,64 +86,80 @@ def create_database_if_not_exists(connection_params):
     port = connection_params['port']
 
     # Connect to the default 'postgres' database
-    conn = psycopg2.connect(
-        dbname='postgres',
-        user=user,
-        password=password,
-        host=host,
-        port=port
-    )
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cur = conn.cursor()
+    try:
+        conn = psycopg2.connect(
+            dbname='postgres',
+            user=user,
+            password=password,
+            host=host,
+            port=port
+        )
+        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cur = conn.cursor()
 
-    # Check if the database exists
-    cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (dbname,))
-    exists = cur.fetchone()
-    if not exists:
-        # Create the database
-        print(f"Database '{dbname}' does not exist. Creating database...")
-        cur.execute(f"CREATE DATABASE {dbname}")
-    else:
-        print(f"Database '{dbname}' already exists.")
+        # Check if the database exists
+        cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (dbname,))
+        exists = cur.fetchone()
+        if not exists:
+            # Create the database
+            st.info(f"Database '{dbname}' does not exist. Creating database...")
+            cur.execute(f"CREATE DATABASE {dbname}")
+            st.success(f"Database '{dbname}' created successfully.")
+        else:
+            st.info(f"Database '{dbname}' already exists.")
+            logging.info(f"Database '{dbname}' already exists.")
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        st.error(f"Error connecting to the database: {e}")
+        logging.error(f"Error connecting to the database: {e}")
 
 # Function to check and create the pgvector extension
 def create_extension_if_not_exists(connection_string):
     '''
     Connects to the target database and creates the pgvector extension if it doesn't exist.
+    Displays status messages in the Web UI.
     '''
-    conn = psycopg2.connect(connection_string)
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cur = conn.cursor()
+    try:
+        conn = psycopg2.connect(connection_string)
+        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cur = conn.cursor()
 
-    # Check if the extension exists
-    cur.execute("SELECT 1 FROM pg_extension WHERE extname = 'vector'")
-    exists = cur.fetchone()
-    if not exists:
-        # Create the extension
-        print("pgvector extension is not installed. Installing extension...")
-        cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
-    else:
-        print("pgvector extension is already installed.")
+        # Check if the extension exists
+        cur.execute("SELECT 1 FROM pg_extension WHERE extname = 'vector'")
+        exists = cur.fetchone()
+        if not exists:
+            # Create the extension
+            st.info("pgvector extension is not installed. Installing extension...")
+            cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
+            st.success("pgvector extension installed successfully.")
+        else:
+            st.info("pgvector extension is already installed.")
+            logging.info("pgvector extension is already installed.")
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        st.error(f"Error checking or creating pgvector extension: {e}")
+        logging.error(f"Error checking or creating pgvector extension: {e}")
 
 # Function to vectorize documents using PGVector and HuggingFace embeddings
 def create_vector_store(documents, collection_name, connection_string):
     '''
     Vectorize documents for similarity search using PGVector and HuggingFace embeddings.
+    Displays status messages in the Web UI.
     '''
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     try:
-        vector_store = PGVector.from_documents(
-            documents=documents,
-            embedding=embeddings,
-            collection_name=collection_name,
-            connection_string=connection_string,
-        )
+        with st.spinner("Creating vector store and embedding documents..."):
+            vector_store = PGVector.from_documents(
+                documents=documents,
+                embedding=embeddings,
+                collection_name=collection_name,
+                connection_string=connection_string,
+            )
+        st.success("Vector store created successfully.")
         return vector_store
     except Exception as e:
         st.error(f"Error creating vector store: {e}")
@@ -165,7 +182,7 @@ def scrape_web_page(url):
         document = Document(page_content=text, metadata={"source": url})
         return [document]
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching the web page: {e}")
+        st.error(f"Error fetching the web page: {e}")
         logging.error(f"Error fetching the web page: {e}")
         return []
 
@@ -271,6 +288,7 @@ def main():
             split_docs = split_documents(valid_docs)
             # Create vector store
             try:
+                st.info("Creating vector store with initial documents...")
                 vector_store = create_vector_store(split_docs, collection_name, connection_string)
                 st.session_state['vector_store'] = vector_store
                 st.success("Initial documents loaded and stored in the vector database.")
@@ -284,7 +302,8 @@ def main():
         st.write("Initializing LLaMA model...")
         try:
             # Adjust the model name based on your hardware capabilities
-            llm = Ollama(model="llama3.2", temperature=temperature)
+            with st.spinner("Loading LLaMA model..."):
+                llm = Ollama(model="llama3.2", temperature=temperature)
             st.session_state['llm'] = llm
             st.success("LLaMA model initialized.")
         except Exception as e:
@@ -337,13 +356,16 @@ def main():
                     split_docs = split_documents(valid_docs)
                     if st.session_state['vector_store'] is None:
                         try:
+                            st.info("Creating new vector store...")
                             st.session_state['vector_store'] = create_vector_store(split_docs, collection_name, connection_string)
+                            st.success("Documents have been processed and added to the vector database.")
                         except Exception as e:
                             st.error(f"Failed to create vector store: {e}")
                             logging.error(f"Failed to create vector store: {e}")
                     else:
                         # Add documents to existing vector store
                         try:
+                            st.info("Adding documents to existing vector store...")
                             st.session_state['vector_store'].add_documents(split_docs)
                             st.success("Documents have been processed and added to the vector database.")
                         except Exception as e:
