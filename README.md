@@ -1,8 +1,8 @@
-# Virtual TA for Berkeley Large Language Model Agents course
+# Virtual TA for Berkeley Large Language Model Agents Course
 
 ## Overview
 
-This project serves as a **virtual Teaching Assistant (TA)** for the **CS294/194-196 Large Language Model Agents** course at UC Berkeley. It leverages a Retrieval-Augmented Generation (RAG) system, built using LangChain and PGVector, to create a knowledge base that assists students by providing factual, contextually relevant answers to course-related questions.
+This project serves as a **virtual Teaching Assistant (TA)** for the **[CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course at UC Berkeley. It leverages a Retrieval-Augmented Generation (RAG) system, built using LangChain and PGVector, to create a knowledge base that assists students by providing factual, contextually relevant answers to course-related questions.
 
 The system allows users to load and query course materials, including scientific papers, lecture notes, and other documents. It is powered by HuggingFace embeddings and uses PostgreSQL with PGVector for efficient semantic search. The local LLaMA model (Ollama) is integrated to generate responses based on the most relevant documents retrieved from the knowledge base. This RAG system acts as a virtual TA, available to help students understand and engage with course content.
 
@@ -16,7 +16,7 @@ The system allows users to load and query course materials, including scientific
 
 ## Course Description
 
-The **Berkeley CS294/194-196 Large Language Model Agents** course explores the development and application of large language models (LLMs) in various domains, such as code generation, robotics, web automation, and scientific discovery. The course also covers the foundational aspects of LLMs, their abilities, and the infrastructure required for agent development, as well as the ethical considerations, privacy issues, and future directions of LLMs.
+The **[Berkeley CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course explores the development and application of large language models (LLMs) in various domains, such as code generation, robotics, web automation, and scientific discovery. The course also covers the foundational aspects of LLMs, their abilities, and the infrastructure required for agent development, as well as the ethical considerations, privacy issues, and future directions of LLMs.
 
 ### Topics Covered:
 - **LLM Fundamentals**: Task automation and agent infrastructure.
@@ -25,19 +25,19 @@ The **Berkeley CS294/194-196 Large Language Model Agents** course explores the d
 
 ### Syllabus
 
-| Date     | Topic                                     | Guest Lecture                             |
-|----------|-------------------------------------------|-------------------------------------------|
-| Sept 9   | LLM Reasoning                             | Denny Zhou, Google DeepMind               |
-| Sept 16  | LLM agents: brief history and overview    | Shunyu Yao, OpenAI                        |
-| Sept 23  | Agentic AI Frameworks & AutoGen           | Chi Wang, AutoGen-AI                      |
-| Sept 30  | Enterprise trends for generative AI       | Burak Gokturk, Google                     |
-| Oct 7    | Compound AI Systems & the DSPy Framework  | Omar Khattab, Databricks                  |
-| Oct 14   | Agents for Software Development           | Graham Neubig, Carnegie Mellon University |
-| Oct 21   | AI Agents for Enterprise Workflows        | Nicolas Chapados, ServiceNow              |
-| Oct 28   | Neural Networks with Symbolic Decision-Making | Yuandong Tian, Meta AI (FAIR)         |
-| Nov 4    | Foundation Agent                          | Jim Fan, NVIDIA                           |
-| Nov 18   | Cybersecurity, agents, and open-source    | Percy Liang, Stanford University          |
-| Dec 2    | LLM Agent Safety                          | Dawn Song, UC Berkeley                    |
+| Lecture # | Date     | Topic                                     | Guest Lecture                             |
+|-----------|----------|-------------------------------------------|-------------------------------------------|
+| 1         | Sept 9   | LLM Reasoning                             | Denny Zhou, Google DeepMind               |
+| 2         | Sept 16  | LLM agents: brief history and overview    | Shunyu Yao, OpenAI                        |
+| 3         | Sept 23  | Agentic AI Frameworks & AutoGen           | Chi Wang, AutoGen-AI                      |
+| 4         | Sept 30  | Enterprise trends for generative AI       | Burak Gokturk, Google                     |
+| 5         | Oct 7    | Compound AI Systems & the DSPy Framework  | Omar Khattab, Databricks                  |
+| 6         | Oct 14   | Agents for Software Development           | Graham Neubig, Carnegie Mellon University |
+| 7         | Oct 21   | AI Agents for Enterprise Workflows        | Nicolas Chapados, ServiceNow              |
+| 8         | Oct 28   | Neural Networks with Symbolic Decision-Making | Yuandong Tian, Meta AI (FAIR)         |
+| 9         | Nov 4    | Foundation Agent                          | Jim Fan, NVIDIA                           |
+| 10        | Nov 18   | Cybersecurity, agents, and open-source    | Percy Liang, Stanford University          |
+| 11        | Dec 2    | LLM Agent Safety                          | Dawn Song, UC Berkeley                    |
 
 ## Enrollment and Grading
 
@@ -49,12 +49,10 @@ This is a variable-unit course:
 
 ## Virtual TA for LLM Agents Course
 
-This **KnowledgeBase RAG with PGVector** is designed to serve as the virtual TA for the **CS294/194-196 Large Language Model Agents** course. Given the course's focus on scientific papers and web-based content, the virtual TA assists students by providing factual, detailed answers based on course materials. It is specifically built to respond to student queries related to lectures, readings, and assignments using the RAG pipeline.
+This **KnowledgeBase RAG with PGVector** is designed to serve as the virtual TA for the **[CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course. Given the course's focus on scientific papers and web-based content, the virtual TA assists students by providing factual, detailed answers based on course materials. It is specifically built to respond to student queries related to lectures, readings, and assignments using the RAG pipeline.
 
 Students can interact with the virtual TA through Edstem, and it will guide them by offering insights into course topics, helping with understanding complex concepts, and ensuring they remain engaged with the course material.
 
 This AI-powered TA ensures that students can access timely and accurate information, enhancing their learning experience in the rapidly evolving field of large language model agents.
 
-
 For any inquiries, feel free to use the virtual TA and explore the topics discussed in the course!
-"""
