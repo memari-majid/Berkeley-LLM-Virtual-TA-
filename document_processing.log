@@ -237,3 +237,203 @@ INFO:root:Database 'mydb' already exists.
 INFO:root:pgvector extension is already installed.
 INFO:root:Database 'mydb' already exists.
 INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+ERROR:root:Error transcribing audio file ./audio/speech.wav: module 'whisper' has no attribute 'load_model'
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+ERROR:root:Error transcribing audio file ./audio/speech.wav: module 'whisper' has no attribute 'load_model'
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+ERROR:root:Error transcribing audio file ./audio/speech.wav: [Errno 2] No such file or directory: 'ffmpeg'
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+ERROR:root:Error transcribing audio file ./audio/speech.wav: [Errno 2] No such file or directory: 'ffmpeg'
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+ERROR:root:Error loading image file temp_uploads/llm.png: 1 validation error for Document
+page_content
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.9/v/string_type
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+ERROR:root:Failed to add documents to vector store: (builtins.TypeError) Object of type Image is not JSON serializable
+[SQL: INSERT INTO langchain_pg_embedding (collection_id, embedding, document, cmetadata, custom_id, uuid) VALUES (%(collection_id)s::UUID, %(embedding)s, %(document)s, %(cmetadata)s::JSON, %(custom_id)s, %(uuid)s::UUID)]
+[parameters: [{'document': '', 'embedding': [-0.11883839219808578, 0.04829872399568558, -0.002548063639551401, -0.011011156253516674, 0.05195079743862152, 0.0102917 ... (8444 characters truncated) ... size=1400x835 at 0x7620035236D0>}, 'custom_id': '9c75b7da-8e9b-4317-939c-2ad4f1ebc061', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}]]
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+ERROR:root:Failed to add documents to vector store: (builtins.TypeError) Object of type Image is not JSON serializable
+[SQL: INSERT INTO langchain_pg_embedding (collection_id, embedding, document, cmetadata, custom_id, uuid) VALUES (%(collection_id)s::UUID, %(embedding)s, %(document)s, %(cmetadata)s::JSON, %(custom_id)s, %(uuid)s::UUID)]
+[parameters: [{'document': "Hey everyone, welcome back. You know, we often talk about like the really dramatic stuff in healthcare, but today's deep dive, it's a li ... (9346 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '6dc38ebd-a07d-41d3-a15d-65daf36b5fb1', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "backbone of decisions that doctors make. And that really hit me, because you think about it, how important accuracy is, and having all t ... (9344 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '059e7801-90ae-4a79-99e8-ea91b403c292', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "I'm also thinking, well, how do doctors actually get to it when they need it? It can't be locked up so tight that can't do their job. We ... (9322 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': 'cbea3e3f-f84a-4c86-987f-98b02ecd10a8', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "got it. Yeah. But it's so much more than that, isn't it? It really is. It's kind of exciting to think about how tech is going to make he ... (9336 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '47413a5c-46c4-4620-9184-f478c153220b', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "use the same language or something. That's a good way to put it. So we've covered a lot here. We've got patient data being the core of e ... (9320 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '974cfe7a-802f-498b-a3db-cfccbe92c9ba', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': 'it forces us to also ask, how are we using this information? And more importantly, why? And are there some ethical lines that we need to ... (8627 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '441566a1-46ac-4f58-a41a-3fa8a3eb6f93', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': '', 'embedding': [-0.11883838474750519, 0.048298656940460205, -0.0025481199845671654, -0.011011211201548576, 0.05195087194442749, 0.01029 ... (8440 characters truncated) ... size=1400x835 at 0x76201F8883D0>}, 'custom_id': 'd8b2e6ce-3925-4ccb-99b5-386a6d1032c8', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}]]
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+ERROR:root:Failed to add documents to vector store: (builtins.TypeError) Object of type Image is not JSON serializable
+[SQL: INSERT INTO langchain_pg_embedding (collection_id, embedding, document, cmetadata, custom_id, uuid) VALUES (%(collection_id)s::UUID, %(embedding)s, %(document)s, %(cmetadata)s::JSON, %(custom_id)s, %(uuid)s::UUID)]
+[parameters: [{'document': "Hey everyone, welcome back. You know, we often talk about like the really dramatic stuff in healthcare, but today's deep dive, it's a li ... (9312 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '11a53710-686c-4c60-89fb-21595bebe59c', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "backbone of decisions that doctors make. And that really hit me, because you think about it, how important accuracy is, and having all t ... (9339 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': 'b9f5c4d9-0ae9-4689-9a88-bf72f87ad120', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "I'm also thinking, well, how do doctors actually get to it when they need it? It can't be locked up so tight that can't do their job. We ... (9327 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '53209ed3-7314-49f9-a395-a9c14dbfbc3b', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "got it. Yeah. But it's so much more than that, isn't it? It really is. It's kind of exciting to think about how tech is going to make he ... (9327 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': 'a4b590a1-7d43-47e8-8657-caa43181ed8f', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': "use the same language or something. That's a good way to put it. So we've covered a lot here. We've got patient data being the core of e ... (9313 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '62013e66-ff50-408b-a6ca-b8c59788b6c3', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': 'it forces us to also ask, how are we using this information? And more importantly, why? And are there some ethical lines that we need to ... (8608 characters truncated) ... urce': 'temp_uploads/speech.wav'}, 'custom_id': '66d113e0-7a31-4386-993f-f23c74473e3f', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': 'Large Language Model (LLM)-based intelligent agents represent a significant advancement in artificial intelligence, combining natural la ... (8818 characters truncated) ... ': 'temp_uploads/LLM Agents.txt'}, 'custom_id': '0d6697c3-5c84-4766-8fca-064bae4c972e', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': 'What makes LLM-based agents particularly compelling is their ability to interact with and process large amounts of unstructured informat ... (8935 characters truncated) ... ': 'temp_uploads/LLM Agents.txt'}, 'custom_id': 'd40bcf90-18b1-457b-94b1-57b247e077c0', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': 'The application of LLM-based intelligent agents spans numerous domains, including customer service, healthcare, education, and scientifi ... (9106 characters truncated) ... ': 'temp_uploads/LLM Agents.txt'}, 'custom_id': '81875c44-bf02-4642-a431-15cd35b807f6', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}, {'document': '', 'embedding': [-0.11883841454982758, 0.04829861596226692, -0.0025480876211076975, -0.01101125217974186, 0.05195083096623421, 0.0102917 ... (8433 characters truncated) ... size=1400x835 at 0x761F97297550>}, 'custom_id': 'e5fc809d-d0c3-40ea-b1ec-2fc715712c8f', 'collection_id': UUID('9c9d7569-a1bf-4198-a8f6-ef0914a90236')}]]
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Processing PDF file: ./pdf/2024 Agent-Computer Interfaces Enable Automated Software Engineering.pdf
+INFO:root:Processing PDF file: ./pdf/2024 An Open Platform for AI Software Developers as Generalist Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Fine-Tuning and Prompt Optimization Two Great Steps that Work Better Together.pdf
+INFO:root:Processing PDF file: ./pdf/2022 Synergizing Reasoning and Acting in Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Large Language Models Cannot Self-Correct Reasoning Yet.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain of Thought Empowers Transformers to Solve Inherently Serial Problems.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs.pdf
+INFO:root:Processing PDF file: ./pdf/2023 The Rise and Potential of Large Language Model Based Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Scalable Real-World Web Interaction with Grounded Language Agents.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Chain-of-Thought Reasoning Without Prompting.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Premise Order Matters in Reasoning with Large Language Models.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2024 Enhancing LLM Task-Solving through State-Driven Workflows.pdf
+INFO:root:Processing PDF file: ./pdf/2024 How Capable Are Web Agents at Solving Common Knowledge Work Tasks.pdf
+INFO:root:Processing PDF file: ./pdf/2023 Enabling Next-Gen LLM Applications via Multi-Agent Conversation.pdf
+INFO:root:Processing audio file: ./audio/speech.wav
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cuda
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+INFO:root:Database 'mydb' already exists.
+INFO:root:pgvector extension is already installed.
+ERROR:root:Error loading image file temp_uploads/llm.png: "Document" object has no field "image"

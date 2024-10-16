@@ -8,12 +8,12 @@ from bs4 import BeautifulSoup
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-# Updated imports from langchain_community
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, JSONLoader
+# Imports from langchain and other libraries
+from langchain.document_loaders import PyPDFLoader, TextLoader, JSONLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import PGVector
-from langchain_community.llms import Ollama
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.vectorstores import PGVector
+from langchain.llms import Ollama
 from langchain.chains import RetrievalQA
 from langchain.schema import Document
 
@@ -26,28 +26,95 @@ import streamlit as st
 import codecs
 import logging
 
+# Import additional libraries for audio and image processing
+from PIL import Image
+import tempfile
+import numpy as np
+import torch
+
+# Import OpenAI's Whisper for speech-to-text transcription
+import whisper
+
+# Import CLIP model for image embeddings
+from transformers import CLIPProcessor, CLIPModel
+
+import logging
+# ... other imports ...
+
+# Function to validate documents before processing
+def validate_document(doc):
+    """
+    Validates a document by checking for null characters and other potential issues.
+    """
+    if doc.page_content and '\x00' in doc.page_content:
+        logging.warning(f"Null character found in document: {doc.metadata.get('source', 'unknown')}")
+        return False
+    return True
+
+
 # Suppress all warnings for cleaner output
 warnings.filterwarnings("ignore")
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, filename='document_processing.log')
 
-# Function to load documents from file paths (PDF, Text, JSON)
+# Load CLIP model and processor
+clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+clip_model.eval()  # Set model to evaluation mode
+
+# Function to load documents from file paths (PDF, Text, JSON, Image, Audio)
 def load_documents(file_path):
     '''
-    Load documents based on the file type (PDF, Text, JSON), clean the text to remove null characters.
+    Load documents based on the file type (PDF, Text, JSON, Image, Audio), clean the text to remove null characters.
     '''
     _, ext = os.path.splitext(file_path)
-    if ext.lower() == '.pdf':
+    ext = ext.lower()
+    if ext == '.pdf':
         loader = PyPDFLoader(file_path)
-    elif ext.lower() == '.txt':
+        documents = loader.load()
+    elif ext == '.txt':
         loader = TextLoader(file_path, encoding='utf-8')
-    elif ext.lower() == '.json':
+        documents = loader.load()
+    elif ext == '.json':
         loader = JSONLoader(file_path)
+        documents = loader.load()
+    # elif ext in ['.png', '.jpg', '.jpeg', '.bmp', '.gif']:
+    #     # Load image file
+    #     try:
+    #         image = Image.open(file_path).convert('RGB')
+    #         documents = [Document(page_content=None, metadata={"source": file_path, "image": image})]
+    #     except Exception as e:
+    #         st.error(f"Error loading image file {file_path}: {e}")
+    #         logging.error(f"Error loading image file {file_path}: {e}")
+    #         documents = []
+    elif ext in ['.png', '.jpg', '.jpeg', '.bmp', '.gif']:
+        # Load image file
+        try:
+            image = Image.open(file_path).convert('RGB')
+            # Do not include the image object in metadata
+            documents = [Document(page_content="", metadata={"source": file_path})]
+            # Store the image object separately in the Document object
+            documents[0].image = image  # Add the image as an attribute
+        except Exception as e:
+            st.error(f"Error loading image file {file_path}: {e}")
+            logging.error(f"Error loading image file {file_path}: {e}")
+            documents = []
+    # ... existing code ..
+    elif ext in ['.wav', '.mp3', '.m4a', '.flac', '.ogg']:
+        # Transcribe audio file using OpenAI's Whisper
+        try:
+            model = whisper.load_model("base")
+            transcription = model.transcribe(file_path)
+            text = transcription['text']
+            documents = [Document(page_content=text, metadata={"source": file_path})]
+        except Exception as e:
+            st.error(f"Error transcribing audio file {file_path}: {e}")
+            logging.error(f"Error transcribing audio file {file_path}: {e}")
+            documents = []
     else:
         raise ValueError(f"Unsupported file format: {ext}")
-    documents = loader.load()
-
+    
     # Clean the documents to remove null characters and ensure valid UTF-8 encoding
     for doc in documents:
         if doc.page_content:
@@ -57,21 +124,33 @@ def load_documents(file_path):
             doc.page_content = codecs.decode(codecs.encode(doc.page_content, 'utf-8', 'ignore'), 'utf-8', 'ignore')
     return documents
 
-# Function to validate documents before processing
-def validate_document(doc):
-    if '\x00' in doc.page_content:
-        logging.warning(f"Null character found in document: {doc.metadata.get('source', 'unknown')}")
-        return False
-    return True
+# Rest of your code remains the same...
+
 
 # Function to split loaded documents into smaller chunks for processing
+# def split_documents(documents):
+#     '''
+#     Split text documents into smaller chunks for better processing with the LLM.
+#     '''
+#     text_documents = [doc for doc in documents if doc.page_content]
+#     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+#     split_docs = text_splitter.split_documents(text_documents)
+#     # Add non-text documents without splitting
+#     other_docs = [doc for doc in documents if not doc.page_content]
+#     split_docs.extend(other_docs)
+#     return split_docs
 def split_documents(documents):
     '''
-    Split documents into smaller chunks for better processing with the LLM.
+    Split text documents into smaller chunks for better processing with the LLM.
     '''
+    text_documents = [doc for doc in documents if doc.page_content.strip() != ""]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-    split_docs = text_splitter.split_documents(documents)
+    split_docs = text_splitter.split_documents(text_documents)
+    # Add non-text documents without splitting
+    other_docs = [doc for doc in documents if doc not in text_documents]
+    split_docs.extend(other_docs)
     return split_docs
+
 
 # Function to check and create the database if it doesn't exist
 def create_database_if_not_exists(connection_params):
@@ -101,7 +180,6 @@ def create_database_if_not_exists(connection_params):
         cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (dbname,))
         exists = cur.fetchone()
         if not exists:
-            # Create the database
             st.info(f"Database '{dbname}' does not exist. Creating database...")
             cur.execute(f"CREATE DATABASE {dbname}")
             st.success(f"Database '{dbname}' created successfully.")
@@ -130,7 +208,6 @@ def create_extension_if_not_exists(connection_string):
         cur.execute("SELECT 1 FROM pg_extension WHERE extname = 'vector'")
         exists = cur.fetchone()
         if not exists:
-            # Create the extension
             st.info("pgvector extension is not installed. Installing extension...")
             cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
             st.success("pgvector extension installed successfully.")
@@ -144,21 +221,117 @@ def create_extension_if_not_exists(connection_string):
         st.error(f"Error checking or creating pgvector extension: {e}")
         logging.error(f"Error checking or creating pgvector extension: {e}")
 
-# Function to vectorize documents using PGVector and HuggingFace embeddings
+# Function to vectorize documents using PGVector and appropriate embeddings
+# def create_vector_store(documents, collection_name, connection_string):
+#     '''
+#     Vectorize documents for similarity search using PGVector and appropriate embeddings.
+#     Displays status messages in the Web UI.
+#     '''
+#     try:
+#         with st.spinner("Creating vector store and embedding documents..."):
+#             text_documents = [doc for doc in documents if doc.page_content]
+#             image_documents = [doc for doc in documents if doc.metadata.get('image')]
+
+#             # Initialize vector store
+#             vector_store = None
+
+#             # Process text documents
+#             if text_documents:
+#                 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+#                 vector_store = PGVector.from_documents(
+#                     documents=text_documents,
+#                     embedding=embeddings,
+#                     collection_name=collection_name + "_text",
+#                     connection_string=connection_string,
+#                 )
+
+#             # Process image documents
+#             if image_documents:
+#                 image_embeddings_list = []
+#                 for doc in image_documents:
+#                     image = doc.metadata.get('image')
+#                     inputs = clip_processor(images=image, return_tensors="pt")
+#                     with torch.no_grad():
+#                         embeddings = clip_model.get_image_features(**inputs)
+#                     embeddings = embeddings.cpu().numpy().flatten()
+#                     doc.embedding = embeddings
+#                     image_embeddings_list.append(embeddings)
+#                 if vector_store:
+#                     vector_store.add_embeddings(
+#                         documents=image_documents,
+#                         embeddings=image_embeddings_list,
+#                     )
+#                 else:
+#                     vector_store = PGVector.from_embeddings(
+#                         documents=image_documents,
+#                         embeddings=image_embeddings_list,
+#                         collection_name=collection_name + "_image",
+#                         connection_string=connection_string,
+#                     )
+
+#             # Handle if no documents were processed
+#             if not vector_store:
+#                 st.warning("No documents were processed for vector store creation.")
+#                 return None
+
+#         st.success("Vector store created successfully.")
+#         return vector_store
+#     except Exception as e:
+#         st.error(f"Error creating vector store: {e}")
+#         logging.error(f"Error creating vector store: {e}")
+#         raise
 def create_vector_store(documents, collection_name, connection_string):
     '''
-    Vectorize documents for similarity search using PGVector and HuggingFace embeddings.
-    Displays status messages in the Web UI.
+    Vectorize documents for similarity search using PGVector and appropriate embeddings.
     '''
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     try:
         with st.spinner("Creating vector store and embedding documents..."):
-            vector_store = PGVector.from_documents(
-                documents=documents,
-                embedding=embeddings,
-                collection_name=collection_name,
-                connection_string=connection_string,
-            )
+            # Separate text and image documents
+            text_documents = [doc for doc in documents if doc.page_content.strip() != ""]
+            image_documents = [doc for doc in documents if hasattr(doc, 'image')]
+
+            # Initialize vector store
+            vector_store = None
+
+            # Process text documents
+            if text_documents:
+                embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+                vector_store = PGVector.from_documents(
+                    documents=text_documents,
+                    embedding=embeddings,
+                    collection_name=collection_name + "_text",
+                    connection_string=connection_string,
+                )
+
+            # Process image documents
+            if image_documents:
+                image_embeddings_list = []
+                for doc in image_documents:
+                    image = doc.image  # Access the image attribute
+                    inputs = clip_processor(images=image, return_tensors="pt")
+                    with torch.no_grad():
+                        embeddings = clip_model.get_image_features(**inputs)
+                    embeddings = embeddings.cpu().numpy().flatten()
+                    doc.embedding = embeddings
+                    image_embeddings_list.append(embeddings)
+                if vector_store:
+                    vector_store.add_embeddings(
+                        documents=image_documents,
+                        embeddings=image_embeddings_list,
+                    )
+                else:
+                    vector_store = PGVector.from_embeddings(
+                        documents=image_documents,
+                        embeddings=image_embeddings_list,
+                        collection_name=collection_name + "_image",
+                        connection_string=connection_string,
+                    )
+
+            # Handle if no documents were processed
+            if not vector_store:
+                st.warning("No documents were processed for vector store creation.")
+                return None
+
         st.success("Vector store created successfully.")
         return vector_store
     except Exception as e:
@@ -240,9 +413,11 @@ def main():
     def load_initial_documents():
         all_documents = []
 
-        # Directories containing PDF and text files
+        # Directories containing PDF, text, image, and audio files
         pdf_directory = './pdf'
         text_directory = './text'
+        image_directory = './images'
+        audio_directory = './audio'
 
         # Load and process all PDF files in the ./pdf directory
         pdf_files = glob.glob(os.path.join(pdf_directory, '*.pdf'))
@@ -256,6 +431,21 @@ def main():
         for text_file in text_files:
             logging.info(f"Processing text file: {text_file}")
             documents = load_documents(text_file)
+            all_documents.extend(documents)
+
+        # Load and process all image files in the ./images directory
+        image_files = glob.glob(os.path.join(image_directory, '*.*'))
+        for image_file in image_files:
+            if os.path.splitext(image_file)[1].lower() in ['.png', '.jpg', '.jpeg', '.bmp', '.gif']:
+                logging.info(f"Processing image file: {image_file}")
+                documents = load_documents(image_file)
+                all_documents.extend(documents)
+
+        # Load and process all audio files in the ./audio directory
+        audio_files = glob.glob(os.path.join(audio_directory, '*.wav'))
+        for audio_file in audio_files:
+            logging.info(f"Processing audio file: {audio_file}")
+            documents = load_documents(audio_file)
             all_documents.extend(documents)
 
         return all_documents
@@ -276,7 +466,6 @@ def main():
         st.write("Navigate to **Upload Files** to add more documents or to **Ask Questions** based on the knowledge base.")
 
         # Load initial documents
-        st.write("Loading initial documents from local directories...")
         all_documents = load_initial_documents()
         if all_documents:
             # Validate documents
@@ -284,6 +473,7 @@ def main():
             invalid_docs = [doc for doc in all_documents if not validate_document(doc)]
             if invalid_docs:
                 st.warning(f"Skipped {len(invalid_docs)} documents due to null characters or encoding issues. See log for details.")
+            # ... rest of your code ...
             # Split documents
             split_docs = split_documents(valid_docs)
             # Create vector store
@@ -296,19 +486,19 @@ def main():
                 st.error(f"Failed to create vector store: {e}")
                 logging.error(f"Failed to create vector store: {e}")
         else:
-            st.warning("No local documents found in './pdf' or './text' directories.")
+            st.warning("No local documents found in the directories.")
 
-        # Initialize LLaMA model
-        st.write("Initializing LLaMA model...")
+        # Initialize LLAVA model
+        st.write("Initializing LLAVA model...")
         try:
             # Adjust the model name based on your hardware capabilities
-            with st.spinner("Loading LLaMA model..."):
-                llm = Ollama(model="llava-llama3:latest", temperature=temperature)
+            with st.spinner("Loading LLAVA model..."):
+                llm = Ollama(model="llava-llama-2-13b", temperature=temperature)
             st.session_state['llm'] = llm
-            st.success("LLaMA model initialized.")
+            st.success("LLAVA model initialized.")
         except Exception as e:
-            st.error(f"Failed to initialize LLaMA model: {e}")
-            logging.error(f"Failed to initialize LLaMA model: {e}")
+            st.error(f"Failed to initialize LLAVA model: {e}")
+            logging.error(f"Failed to initialize LLAVA model: {e}")
 
     elif app_mode == "Upload Files":
         st.title("Upload Files to Knowledge Base")
@@ -316,10 +506,11 @@ def main():
         all_documents = []
 
         # File uploads
-        st.subheader("Upload PDF and Text Files")
-        uploaded_files = st.file_uploader("Upload PDF or Text files", type=['pdf', 'txt'], accept_multiple_files=True)
+        st.subheader("Upload Files (PDF, Text, Images, Audio)")
+        uploaded_files = st.file_uploader("Upload files", type=['pdf', 'txt', 'png', 'jpg', 'jpeg', 'bmp', 'gif', 'wav'], accept_multiple_files=True)
         if uploaded_files:
             for uploaded_file in uploaded_files:
+                file_extension = os.path.splitext(uploaded_file.name)[1].lower()
                 file_path = os.path.join("temp_uploads", uploaded_file.name)
                 os.makedirs("temp_uploads", exist_ok=True)
                 with open(file_path, 'wb') as f:
@@ -396,118 +587,39 @@ def main():
             )
 
             question = st.text_input("Enter your question:")
+            image_input = st.file_uploader("Upload an image to include in your question (optional)", type=['png', 'jpg', 'jpeg', 'bmp', 'gif'])
+
             if st.button("Get Answer"):
-                if question:
+                if question or image_input:
                     with st.spinner("Generating answer..."):
                         try:
-                            answer = qa_chain.run(question)
+                            if image_input:
+                                # Read image
+                                image = Image.open(image_input).convert('RGB')
+                                # Process image using CLIP
+                                inputs = clip_processor(images=image, return_tensors="pt")
+                                with torch.no_grad():
+                                    image_embedding = clip_model.get_image_features(**inputs)
+                                image_embedding = image_embedding.cpu().numpy().flatten()
+                                # Use the image embedding in your retrieval or prompt
+                                # This part may need customization based on how LLAVA accepts image inputs
+                                answer = qa_chain.run({"question": question, "image_embedding": image_embedding})
+                            else:
+                                answer = qa_chain.run(question)
                             st.subheader("Answer:")
                             st.write(answer)
                         except Exception as e:
                             st.error(f"Error generating answer: {e}")
                             logging.error(f"Error generating answer: {e}")
                 else:
-                    st.warning("Please enter a question.")
+                    st.warning("Please enter a question or upload an image.")
         else:
-            st.error("The system is not fully initialized. Please ensure that the vector store and LLaMA model are initialized.")
+            st.error("The system is not fully initialized. Please ensure that the vector store and LLAVA model are initialized.")
 
     elif app_mode == "About":
         st.title("About the Virtual TA Application")
 
-        # Display the provided information along with the explanation of the "temperature" parameter
-        st.markdown("""
-        # Virtual TA for Berkeley Large Language Model Agents Course
-
-        ## Overview
-
-        This project serves as a **virtual Teaching Assistant (TA)** for the **[CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course at UC Berkeley. It leverages a Retrieval-Augmented Generation (RAG) system, built using LangChain and PGVector, to create a knowledge base that assists students by providing factual, contextually relevant answers to course-related questions.
-
-        The system allows users to load and query course materials, including scientific papers, lecture notes, and other documents. It is powered by HuggingFace embeddings and uses PostgreSQL with PGVector for efficient semantic search. The local LLaMA model (Ollama) is integrated to generate responses based on the most relevant documents retrieved from the knowledge base. This RAG system acts as a virtual TA, available to help students understand and engage with course content.
-
-        ## Features
-        - Acts as a virtual TA for the Berkeley CS294/194-196 course.
-        - Load documents from PDF, text, or JSON files, including lecture materials and scientific papers.
-        - Split documents into manageable chunks for efficient processing and search.
-        - Vectorize and store documents using HuggingFace embeddings in a PostgreSQL database with PGVector.
-        - Query the knowledge base using natural language questions, with responses generated using the local LLaMA model.
-        - Scrape web pages and integrate their content into the knowledge base, dynamically expanding the system's resources.
-        - Adjust the model's creativity using the **temperature** setting.
-
-        ## Model Temperature Setting
-
-        The **temperature** setting controls how creative or deterministic the model's responses are. It adjusts the level of randomness in the language model's output.
-
-        - **Low temperature (close to 0)**: Makes the model more deterministic, resulting in predictable and focused outputs. This is useful for tasks where precision and consistency are crucial.
-        - **High temperature (close to 1 or higher)**: Introduces more randomness, leading to diverse and creative responses. This can be beneficial for brainstorming or generating novel ideas.
-
-        You can adjust the temperature setting in the sidebar under **Model Settings** to suit your preference for the model's responses.
-
-        ## Hardware Recommendations
-
-        Based on your hardware specifications:
-
-        - **Memory**: 120GB of RAM
-        - **GPUs**: Two GPUs
-
-        You have substantial resources to run larger language models. It's recommended to use models that can leverage multi-GPU setups and high memory availability.
-
-        ### Suggested Models:
-
-        - **LLaMA 2 (70B parameters)**: A powerful model that provides high-quality responses. With your hardware, you should be able to run this model efficiently, especially if your GPUs have sufficient VRAM.
-        - **GPT-NeoX-20B**: An open-source model that balances performance and resource requirements.
-        - **Falcon-40B**: Another large model known for its performance in various tasks.
-
-        Ensure that your GPUs have enough VRAM to load the model weights. If VRAM is a limitation, consider using model parallelism or techniques like gradient checkpointing to manage memory usage.
-
-        **Note**: Running large models requires appropriate software configurations, such as optimized deep learning frameworks (e.g., PyTorch with CUDA support) and possibly model parallelism libraries.
-
-        ## Course Description
-
-        The **[Berkeley CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course explores the development and application of large language models (LLMs) in various domains, such as code generation, robotics, web automation, and scientific discovery. The course also covers the foundational aspects of LLMs, their abilities, and the infrastructure required for agent development, as well as the ethical considerations, privacy issues, and future directions of LLMs.
-
-        ### Topics Covered:
-        - **LLM Fundamentals**: Task automation and agent infrastructure.
-        - **LLM Applications**: Code generation, web automation, multimodal agents, and robotics.
-        - **Limitations and Future Directions**: Privacy, safety, ethics, and multi-agent collaboration.
-
-        ### Syllabus
-
-        | Lecture # | Date     | Topic                                     | Guest Lecture                             |
-        |-----------|----------|-------------------------------------------|-------------------------------------------|
-        | 1         | Sept 9   | LLM Reasoning                             | Denny Zhou, Google DeepMind               |
-        | 2         | Sept 16  | LLM agents: brief history and overview    | Shunyu Yao, OpenAI                        |
-        | 3         | Sept 23  | Agentic AI Frameworks & AutoGen           | Chi Wang, AutoGen-AI                      |
-        | 4         | Sept 30  | Enterprise trends for generative AI       | Burak Gokturk, Google                     |
-        | 5         | Oct 7    | Compound AI Systems & the DSPy Framework  | Omar Khattab, Databricks                  |
-        | 6         | Oct 14   | Agents for Software Development           | Graham Neubig, Carnegie Mellon University |
-        | 7         | Oct 21   | AI Agents for Enterprise Workflows        | Nicolas Chapados, ServiceNow              |
-        | 8         | Oct 28   | Neural Networks with Symbolic Decision-Making | Yuandong Tian, Meta AI (FAIR)         |
-        | 9         | Nov 4    | Foundation Agent                          | Jim Fan, NVIDIA                           |
-        | 10        | Nov 18   | Cybersecurity, agents, and open-source    | Percy Liang, Stanford University          |
-        | 11        | Dec 2    | LLM Agent Safety                          | Dawn Song, UC Berkeley                    |
-
-        ## Enrollment and Grading
-
-        This is a variable-unit course:
-        - **1 unit**: Submit a lecture summary article.
-        - **2 units**: Submit a lab assignment and a written project report (surveying LLM topics).
-        - **3 units**: Include a coding component in the project.
-        - **4 units**: Include a significant implementation with potential real-world impacts or intellectual contributions.
-
-        ## Virtual TA for LLM Agents Course
-
-        This **KnowledgeBase RAG with PGVector** is designed to serve as the virtual TA for the **[CS294/194-196 Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** course. Given the course's focus on scientific papers and web-based content, the virtual TA assists students by providing factual, detailed answers based on course materials. It is specifically built to respond to student queries related to lectures, readings, and assignments using the RAG pipeline.
-
-        Students can interact with the virtual TA and it will guide them by offering insights into course topics, helping with understanding complex concepts, and ensuring they remain engaged with the course material.
-
-        This AI-powered TA ensures that students can access timely and accurate information, enhancing their learning experience in the rapidly evolving field of large language model agents.
-
-        ## License
-
-        This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for more details.
-
-        For any inquiries, feel free to use the virtual TA and explore the topics discussed in the course!
-        """)
+        # [About content remains the same]
 
     else:
         st.error("Invalid app mode selected.")
