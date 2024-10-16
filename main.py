@@ -303,7 +303,7 @@ def main():
         try:
             # Adjust the model name based on your hardware capabilities
             with st.spinner("Loading LLaMA model..."):
-                llm = Ollama(model="llama3.2", temperature=temperature)
+                llm = Ollama(model="llava-llama3:latest", temperature=temperature)
             st.session_state['llm'] = llm
             st.success("LLaMA model initialized.")
         except Exception as e:
