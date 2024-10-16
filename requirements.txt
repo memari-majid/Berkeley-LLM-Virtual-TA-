@@ -1,32 +1,12 @@
-# HTTP requests library for making network requests
+os
+glob
 requests
-
-# Library for parsing HTML and XML documents
 beautifulsoup4
-
-# LangChain core framework for building applications with language models
-langchain
-
-# LangChain community extensions and utilities
-langchain-core
-langchain_community
-
-# Pretrained models for sentence embeddings
-sentence-transformers
-
-# PostgreSQL database adapter
 psycopg2-binary
-
-
-# Hugging Face Transformers library for working with transformer models
+langchain
+langchain_community
+sentence-transformers
 transformers
-
-
-# PDF manipulation library for splitting, merging, and extracting PDF content
 PyPDF2
-
-# Library for handling and parsing PDFs
 pypdf
-
-# UI library for building web applications
 streamlit
