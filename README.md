@@ -42,13 +42,6 @@ The **[Berkeley CS294/194-196 Large Language Model Agents](https://rdi.berkeley.
 | 10        | Nov 18   | Cybersecurity, Agents, and Open-Source    | Percy Liang, Stanford University          |
 | 11        | Dec 2    | LLM Agent Safety                          | Dawn Song, UC Berkeley                    |
 
-## Enrollment and Grading
-
-This is a variable-unit course:
-- **1 unit**: Submit a lecture summary article.
-- **2 units**: Submit a lab assignment and a written project report (surveying LLM topics).
-- **3 units**: Include a coding component in the project.
-- **4 units**: Include a significant implementation with potential real-world impacts or intellectual contributions.
 
 ## Virtual TA for LLM Agents Course
 
