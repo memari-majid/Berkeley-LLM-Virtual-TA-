@@ -28,7 +28,6 @@ import logging
 
 # Import additional libraries for audio and image processing
 from PIL import Image
-import tempfile
 import numpy as np
 import torch
 
@@ -37,20 +36,6 @@ import whisper
 
 # Import CLIP model for image embeddings
 from transformers import CLIPProcessor, CLIPModel
-
-import logging
-# ... other imports ...
-
-# Function to validate documents before processing
-def validate_document(doc):
-    """
-    Validates a document by checking for null characters and other potential issues.
-    """
-    if doc.page_content and '\x00' in doc.page_content:
-        logging.warning(f"Null character found in document: {doc.metadata.get('source', 'unknown')}")
-        return False
-    return True
-
 
 # Suppress all warnings for cleaner output
 warnings.filterwarnings("ignore")
@@ -62,6 +47,16 @@ logging.basicConfig(level=logging.INFO, filename='document_processing.log')
 clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 clip_model.eval()  # Set model to evaluation mode
+
+# Function to validate documents before processing
+def validate_document(doc):
+    """
+    Validates a document by checking for null characters and other potential issues.
+    """
+    if doc.page_content and '\x00' in doc.page_content:
+        logging.warning(f"Null character found in document: {doc.metadata.get('source', 'unknown')}")
+        return False
+    return True
 
 # Function to load documents from file paths (PDF, Text, JSON, Image, Audio)
 def load_documents(file_path):
@@ -79,28 +74,14 @@ def load_documents(file_path):
     elif ext == '.json':
         loader = JSONLoader(file_path)
         documents = loader.load()
-    # elif ext in ['.png', '.jpg', '.jpeg', '.bmp', '.gif']:
-    #     # Load image file
-    #     try:
-    #         image = Image.open(file_path).convert('RGB')
-    #         documents = [Document(page_content=None, metadata={"source": file_path, "image": image})]
-    #     except Exception as e:
-    #         st.error(f"Error loading image file {file_path}: {e}")
-    #         logging.error(f"Error loading image file {file_path}: {e}")
-    #         documents = []
     elif ext in ['.png', '.jpg', '.jpeg', '.bmp', '.gif']:
-        # Load image file
+        # Store the image file path in metadata
         try:
-            image = Image.open(file_path).convert('RGB')
-            # Do not include the image object in metadata
-            documents = [Document(page_content="", metadata={"source": file_path})]
-            # Store the image object separately in the Document object
-            documents[0].image = image  # Add the image as an attribute
+            documents = [Document(page_content="", metadata={"source": file_path, "type": "image"})]
         except Exception as e:
             st.error(f"Error loading image file {file_path}: {e}")
             logging.error(f"Error loading image file {file_path}: {e}")
             documents = []
-    # ... existing code ..
     elif ext in ['.wav', '.mp3', '.m4a', '.flac', '.ogg']:
         # Transcribe audio file using OpenAI's Whisper
         try:
@@ -124,21 +105,7 @@ def load_documents(file_path):
             doc.page_content = codecs.decode(codecs.encode(doc.page_content, 'utf-8', 'ignore'), 'utf-8', 'ignore')
     return documents
 
-# Rest of your code remains the same...
-
-
 # Function to split loaded documents into smaller chunks for processing
-# def split_documents(documents):
-#     '''
-#     Split text documents into smaller chunks for better processing with the LLM.
-#     '''
-#     text_documents = [doc for doc in documents if doc.page_content]
-#     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-#     split_docs = text_splitter.split_documents(text_documents)
-#     # Add non-text documents without splitting
-#     other_docs = [doc for doc in documents if not doc.page_content]
-#     split_docs.extend(other_docs)
-#     return split_docs
 def split_documents(documents):
     '''
     Split text documents into smaller chunks for better processing with the LLM.
@@ -150,7 +117,6 @@ def split_documents(documents):
     other_docs = [doc for doc in documents if doc not in text_documents]
     split_docs.extend(other_docs)
     return split_docs
-
 
 # Function to check and create the database if it doesn't exist
 def create_database_if_not_exists(connection_params):
@@ -222,73 +188,16 @@ def create_extension_if_not_exists(connection_string):
         logging.error(f"Error checking or creating pgvector extension: {e}")
 
 # Function to vectorize documents using PGVector and appropriate embeddings
-# def create_vector_store(documents, collection_name, connection_string):
-#     '''
-#     Vectorize documents for similarity search using PGVector and appropriate embeddings.
-#     Displays status messages in the Web UI.
-#     '''
-#     try:
-#         with st.spinner("Creating vector store and embedding documents..."):
-#             text_documents = [doc for doc in documents if doc.page_content]
-#             image_documents = [doc for doc in documents if doc.metadata.get('image')]
-
-#             # Initialize vector store
-#             vector_store = None
-
-#             # Process text documents
-#             if text_documents:
-#                 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-#                 vector_store = PGVector.from_documents(
-#                     documents=text_documents,
-#                     embedding=embeddings,
-#                     collection_name=collection_name + "_text",
-#                     connection_string=connection_string,
-#                 )
-
-#             # Process image documents
-#             if image_documents:
-#                 image_embeddings_list = []
-#                 for doc in image_documents:
-#                     image = doc.metadata.get('image')
-#                     inputs = clip_processor(images=image, return_tensors="pt")
-#                     with torch.no_grad():
-#                         embeddings = clip_model.get_image_features(**inputs)
-#                     embeddings = embeddings.cpu().numpy().flatten()
-#                     doc.embedding = embeddings
-#                     image_embeddings_list.append(embeddings)
-#                 if vector_store:
-#                     vector_store.add_embeddings(
-#                         documents=image_documents,
-#                         embeddings=image_embeddings_list,
-#                     )
-#                 else:
-#                     vector_store = PGVector.from_embeddings(
-#                         documents=image_documents,
-#                         embeddings=image_embeddings_list,
-#                         collection_name=collection_name + "_image",
-#                         connection_string=connection_string,
-#                     )
-
-#             # Handle if no documents were processed
-#             if not vector_store:
-#                 st.warning("No documents were processed for vector store creation.")
-#                 return None
-
-#         st.success("Vector store created successfully.")
-#         return vector_store
-#     except Exception as e:
-#         st.error(f"Error creating vector store: {e}")
-#         logging.error(f"Error creating vector store: {e}")
-#         raise
 def create_vector_store(documents, collection_name, connection_string):
     '''
     Vectorize documents for similarity search using PGVector and appropriate embeddings.
+    Displays status messages in the Web UI.
     '''
     try:
         with st.spinner("Creating vector store and embedding documents..."):
             # Separate text and image documents
             text_documents = [doc for doc in documents if doc.page_content.strip() != ""]
-            image_documents = [doc for doc in documents if hasattr(doc, 'image')]
+            image_documents = [doc for doc in documents if doc.metadata.get('type') == 'image']
 
             # Initialize vector store
             vector_store = None
@@ -307,11 +216,18 @@ def create_vector_store(documents, collection_name, connection_string):
             if image_documents:
                 image_embeddings_list = []
                 for doc in image_documents:
-                    image = doc.image  # Access the image attribute
+                    image_path = doc.metadata.get('source')
+                    try:
+                        image = Image.open(image_path).convert('RGB')  # Load image from file path
+                    except Exception as e:
+                        st.error(f"Error loading image {image_path}: {e}")
+                        logging.error(f"Error loading image {image_path}: {e}")
+                        continue  # Skip this document if image cannot be loaded
                     inputs = clip_processor(images=image, return_tensors="pt")
                     with torch.no_grad():
                         embeddings = clip_model.get_image_features(**inputs)
                     embeddings = embeddings.cpu().numpy().flatten()
+                    doc.page_content = ""  # Ensure page_content is a string
                     doc.embedding = embeddings
                     image_embeddings_list.append(embeddings)
                 if vector_store:
@@ -442,11 +358,12 @@ def main():
                 all_documents.extend(documents)
 
         # Load and process all audio files in the ./audio directory
-        audio_files = glob.glob(os.path.join(audio_directory, '*.wav'))
+        audio_files = glob.glob(os.path.join(audio_directory, '*.*'))
         for audio_file in audio_files:
-            logging.info(f"Processing audio file: {audio_file}")
-            documents = load_documents(audio_file)
-            all_documents.extend(documents)
+            if os.path.splitext(audio_file)[1].lower() in ['.wav', '.mp3', '.m4a', '.flac', '.ogg']:
+                logging.info(f"Processing audio file: {audio_file}")
+                documents = load_documents(audio_file)
+                all_documents.extend(documents)
 
         return all_documents
 
@@ -473,7 +390,6 @@ def main():
             invalid_docs = [doc for doc in all_documents if not validate_document(doc)]
             if invalid_docs:
                 st.warning(f"Skipped {len(invalid_docs)} documents due to null characters or encoding issues. See log for details.")
-            # ... rest of your code ...
             # Split documents
             split_docs = split_documents(valid_docs)
             # Create vector store
@@ -493,7 +409,7 @@ def main():
         try:
             # Adjust the model name based on your hardware capabilities
             with st.spinner("Loading LLAVA model..."):
-                llm = Ollama(model="llava-llama-2-13b", temperature=temperature)
+                llm = Ollama(model="llava-llama3:latest", temperature=temperature)
             st.session_state['llm'] = llm
             st.success("LLAVA model initialized.")
         except Exception as e:
@@ -507,7 +423,7 @@ def main():
 
         # File uploads
         st.subheader("Upload Files (PDF, Text, Images, Audio)")
-        uploaded_files = st.file_uploader("Upload files", type=['pdf', 'txt', 'png', 'jpg', 'jpeg', 'bmp', 'gif', 'wav'], accept_multiple_files=True)
+        uploaded_files = st.file_uploader("Upload files", type=['pdf', 'txt', 'png', 'jpg', 'jpeg', 'bmp', 'gif', 'wav', 'mp3', 'm4a', 'flac', 'ogg'], accept_multiple_files=True)
         if uploaded_files:
             for uploaded_file in uploaded_files:
                 file_extension = os.path.splitext(uploaded_file.name)[1].lower()
@@ -602,10 +518,13 @@ def main():
                                     image_embedding = clip_model.get_image_features(**inputs)
                                 image_embedding = image_embedding.cpu().numpy().flatten()
                                 # Use the image embedding in your retrieval or prompt
-                                # This part may need customization based on how LLAVA accepts image inputs
-                                answer = qa_chain.run({"question": question, "image_embedding": image_embedding})
+                                # Customize this part based on how LLAVA accepts image inputs
+                            #     answer = qa_chain.run({"question": question, "image_embedding": image_embedding})
+                            # else:
+                            #     answer = qa_chain.run(question)
+                                answer = qa_chain.run({"query": question, "image_embedding": image_embedding})
                             else:
-                                answer = qa_chain.run(question)
+                                answer = qa_chain.run({"query": question})
                             st.subheader("Answer:")
                             st.write(answer)
                         except Exception as e:
@@ -618,8 +537,10 @@ def main():
 
     elif app_mode == "About":
         st.title("About the Virtual TA Application")
-
-        # [About content remains the same]
+        st.write("""
+        This application serves as a Virtual Teaching Assistant for the **CS294/194-196 Large Language Model Agents** course at UC Berkeley.
+        It leverages advanced language models and vector databases to provide accurate and contextually relevant answers based on uploaded documents and course materials.
+        """)
 
     else:
         st.error("Invalid app mode selected.")
