@@ -59,7 +59,8 @@ This AI-powered TA enhances students' learning experience, ensuring they stay en
 
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   conda env create -f environment.yml
+   conda activate llm
    ```
 
 3. Setup PostgreSQL with PGVector:
